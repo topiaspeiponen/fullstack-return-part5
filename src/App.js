@@ -13,7 +13,11 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    ) 
+    const existingUser = localStorage.getItem('user')
+    if (existingUser) {
+      setUser(JSON.parse(existingUser))
+    }
   }, [])
 
   const handleLogin = async (e) => {
@@ -22,11 +26,17 @@ const App = () => {
       const userResponse = await loginService.login(username, password)
       console.log('handling login ', userResponse)
       setUser(userResponse)
+      localStorage.setItem('user', JSON.stringify(userResponse))
       setUsername('')
       setPassword('')
     } catch(error) {
       console.log('handlelogin error ', error)
     }
+  }
+
+  const handleLogout = (e) => {
+    setUser(null)
+    localStorage.clear()
   }
 
   return (
@@ -36,6 +46,7 @@ const App = () => {
         <div>
           <h2>blogs</h2>
           <div> {user.name} logged in </div>
+          <button onClick={handleLogout}>log out</button>
           <br />
           {
           blogs.map(blog =>
