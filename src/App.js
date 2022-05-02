@@ -4,6 +4,8 @@ import LoginForm from './components/LoginForm'
 import CreateBlogForm from './components/CreateBlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
+import './App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -17,6 +19,11 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+
+  // Notification states
+  const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
+
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -37,6 +44,10 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch(error) {
+      setErrorMessage('invalid username or password')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
       console.log('handlelogin error ', error)
     }
   }
@@ -57,6 +68,10 @@ const App = () => {
       await blogService.createBlog(user.token, newBlog)
       const updatedBlogs = await blogService.getAll()
       setBlogs(updatedBlogs)
+      setSuccessMessage(`new blog ${newBlog.title} by ${newBlog.author} added`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 3000)
     } catch(error) {
       console.log('handleNewBlog ', error)
     }
@@ -64,6 +79,8 @@ const App = () => {
 
   return (
     <>
+      <Notification message={successMessage} type="success" />
+      <Notification message={errorMessage} type="error" />
       {user === null ? 
         <LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword} username={username} password={password} /> :
         <div>
