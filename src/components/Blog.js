@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Blog = ({blog, handleAddLike}) => {
+const Blog = ({blog, handleAddLike, handleDeleteBlog, user}) => {
   const [open, setOpen] = useState(null)
 
   const openedStyle = {
@@ -13,7 +13,7 @@ const Blog = ({blog, handleAddLike}) => {
     borderWidth: 1,
     marginBottom: 5
   }
-
+  
   return (
     <>
       { !open ?
@@ -40,6 +40,11 @@ const Blog = ({blog, handleAddLike}) => {
           <div>
             {blog.author}
           </div>
+          {user.username === blog.user.username &&
+            <button onClick={() => handleDeleteBlog(blog)}>
+              remove
+            </button>
+          }
         </div>
       }
     </>

@@ -83,6 +83,22 @@ const App = () => {
       console.error('handleNewBlog ', error)
     }
   }
+  
+  const handleDeleteBlog = async (blogToDelete) => {
+    try {
+      if (window.confirm(`Remove blog ${blogToDelete.title} by ${blogToDelete.author}`)) {
+        await blogService.deleteBlog(user.token, blogToDelete)
+        const sortedBlogs = await getSortedBlogs()
+        setBlogs(sortedBlogs)
+        setSuccessMessage(`blog ${blogToDelete.title} deleted succesfully`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 3000)
+      }
+    } catch(error) {
+      console.error('handleDeleteBlog ', error)
+    }
+  }
 
   const handleAddLike = async (blog) => {
     try {
@@ -114,7 +130,7 @@ const App = () => {
           </Togglable>
           {
           blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} handleAddLike={handleAddLike}/>
+            <Blog key={blog.id} blog={blog} handleAddLike={handleAddLike} handleDeleteBlog={handleDeleteBlog} user={user}/>
           )}
         </div>
         

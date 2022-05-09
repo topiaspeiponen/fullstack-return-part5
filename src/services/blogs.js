@@ -24,6 +24,15 @@ const editBlog = async (token, blog) => {
   return response.data
 }
 
-const blogsService = { getAll, createBlog, editBlog }
+const deleteBlog = async (token, blog) => {
+  const response = await axios.delete(`${baseUrl}/${blog.id}`, {
+    headers: {
+      Authorization: 'bearer ' + token
+    }
+  })
+  return response
+}
+
+const blogsService = { getAll, createBlog, editBlog, deleteBlog }
 
 export default blogsService
