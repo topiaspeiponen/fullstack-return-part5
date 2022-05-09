@@ -24,14 +24,22 @@ const App = () => {
 
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    ) 
+    getSortedBlogs().then(sortedBlogs => {
+      setBlogs(sortedBlogs)
+    })
     const existingUser = localStorage.getItem('user')
     if (existingUser) {
       setUser(JSON.parse(existingUser))
     }
   }, [])
+
+  const getSortedBlogs = async () => {
+    const fetchedBlogs = await blogService.getAll()
+    const sortedBlogs = fetchedBlogs.sort((blogA, blogB) => {
+      return  blogB.likes - blogA.likes
+    })
+    return sortedBlogs
+  }
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -63,8 +71,9 @@ const App = () => {
         url: url
       }
       await blogService.createBlog(user.token, newBlog)
-      const updatedBlogs = await blogService.getAll()
-      setBlogs(updatedBlogs)
+      getSortedBlogs().then(sortedBlogs => {
+        setBlogs(sortedBlogs)
+      })
       setSuccessMessage(`new blog ${newBlog.title} by ${newBlog.author} added`)
       setTimeout(() => {
         setSuccessMessage(null)
@@ -82,8 +91,9 @@ const App = () => {
         likes: blog.likes + 1
       }
       await blogService.editBlog(user.token, blogWithAddedLike)
-      const updatedBlogs = await blogService.getAll()
-      setBlogs(updatedBlogs)
+      getSortedBlogs().then(sortedBlogs => {
+        setBlogs(sortedBlogs)
+      })
     } catch(error) {
       console.error('handleAddLike ', error)
     }
