@@ -71,7 +71,21 @@ const App = () => {
       }, 3000)
       createFormRef.current.toggleVisibility()
     } catch(error) {
-      console.log('handleNewBlog ', error)
+      console.error('handleNewBlog ', error)
+    }
+  }
+
+  const handleAddLike = async (blog) => {
+    try {
+      const blogWithAddedLike = {
+        ...blog,
+        likes: blog.likes + 1
+      }
+      await blogService.editBlog(user.token, blogWithAddedLike)
+      const updatedBlogs = await blogService.getAll()
+      setBlogs(updatedBlogs)
+    } catch(error) {
+      console.error('handleAddLike ', error)
     }
   }
 
@@ -90,7 +104,7 @@ const App = () => {
           </Togglable>
           {
           blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} handleAddLike={handleAddLike}/>
           )}
         </div>
         
