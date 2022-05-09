@@ -12,7 +12,7 @@ const createBlog = async (token, blog) => {
       Authorization: 'bearer ' + token
     }
   })
-  return response.data
+  return response
 }
 
 const blogsService = { getAll, createBlog }

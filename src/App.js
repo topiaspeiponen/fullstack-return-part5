@@ -16,11 +16,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  // New blog states
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-
   // Notification states
   const [successMessage, setSuccessMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -60,8 +55,7 @@ const App = () => {
     localStorage.clear()
   }
 
-  const handleCreateBlog = async (e) => {
-    e.preventDefault()
+  const handleCreateBlog = async (title, author, url) => {
     try {
       const newBlog = {
         title: title,
@@ -92,7 +86,7 @@ const App = () => {
           <div> {user.name} logged in </div>
           <button style={{marginBottom: '16px'}} onClick={handleLogout}>log out</button>
           <Togglable buttonLabel="create new blog" ref={createFormRef}>
-            <CreateBlogForm handleCreateBlog={handleCreateBlog} title={title} setTitle={setTitle} author={author} setAuthor={setAuthor} url={url} setUrl={setUrl} />
+            <CreateBlogForm handleCreateBlog={handleCreateBlog} />
           </Togglable>
           {
           blogs.map(blog =>
