@@ -18,33 +18,33 @@ const Blog = ({ blog, handleAddLike, handleDeleteBlog, user }) => {
 	return (
 		<>
 			{ !open ?
-				<div style={closedStyle}>
+				<div id='blog-closed' style={closedStyle}>
 					{blog.title} {blog.author}
-					<button onClick={() => setOpen(true)}>
-            view
+					<button id='open-btn' onClick={() => setOpen(true)}>
+                    view
 					</button>
 				</div> :
-				<div style={openedStyle}>
+				<div id='blog-open' style={openedStyle}>
 					{blog.title} {blog.author}
-					<button onClick={() => setOpen(null)}>
-            hide
+					<button id='close-btn' onClick={() => setOpen(null)}>
+                    hide
 					</button>
 					<div>
 						{blog.url}
 					</div>
 					<div>
-            likes {blog.likes}
-						<button onClick={() => handleAddLike(blog)}>
-              like
+                        likes {blog.likes}
+						<button id='like-btn' onClick={() => handleAddLike(blog)}>
+                        like
 						</button>
 					</div>
 					<div>
 						{blog.user.username}
 					</div>
 					{user.username === blog.user.username &&
-            <button onClick={() => handleDeleteBlog(blog)}>
-              remove
-            </button>
+						<button onClick={() => handleDeleteBlog(blog)}>
+							remove
+						</button>
 					}
 				</div>
 			}
