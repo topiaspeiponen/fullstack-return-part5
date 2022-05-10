@@ -23,7 +23,6 @@ describe('<Blog />', () => {
 		}
 		const user = {
 			name: 'Make Testonen',
-			token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlYXNkZiIsImlkIjoiNjI1ZDkxYThjYzc0YmQzNTczNGY2YmM3IiwiaWF0IjoxNjUyMDk2NDUxfQ.YLdZqWFVgRfUqhtnKmyFDgRvgOKG2DCBKwEcOV2luW0',
 			username: 'teasdf'
 		}
 		mockHandler = jest.fn()

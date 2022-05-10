@@ -117,8 +117,8 @@ const App = () => {
 
 	return (
 		<>
-			<Notification message={successMessage} type="success" />
-			<Notification message={errorMessage} type="error" />
+			<Notification id="success-notification" message={successMessage} type="success" />
+			<Notification id="error-notification" message={errorMessage} type="error" />
 			{user === null ?
 				<LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword} username={username} password={password} /> :
 				<div>
@@ -128,10 +128,12 @@ const App = () => {
 					<Togglable buttonLabel="create new blog" ref={createFormRef}>
 						<CreateBlogForm handleCreateBlog={handleCreateBlog} />
 					</Togglable>
-					{
-						blogs.map(blog =>
-							<Blog key={blog.id} blog={blog} handleAddLike={handleAddLike} handleDeleteBlog={handleDeleteBlog} user={user}/>
-						)}
+					<div id="blog-list">
+						{
+							blogs.map(blog =>
+								<Blog key={blog.id} blog={blog} handleAddLike={handleAddLike} handleDeleteBlog={handleDeleteBlog} user={user}/>
+							)}
+					</div>
 				</div>
 
 			}
