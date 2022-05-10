@@ -19,13 +19,13 @@ const Blog = ({ blog, handleAddLike, handleDeleteBlog, user }) => {
 		<>
 			{ !open ?
 				<div style={closedStyle}>
-					{blog.title}
+					{blog.title} {blog.author}
 					<button onClick={() => setOpen(true)}>
             view
 					</button>
 				</div> :
 				<div style={openedStyle}>
-					{blog.title}
+					{blog.title} {blog.author}
 					<button onClick={() => setOpen(null)}>
             hide
 					</button>
@@ -39,7 +39,7 @@ const Blog = ({ blog, handleAddLike, handleDeleteBlog, user }) => {
 						</button>
 					</div>
 					<div>
-						{blog.author}
+						{blog.user.username}
 					</div>
 					{user.username === blog.user.username &&
             <button onClick={() => handleDeleteBlog(blog)}>
