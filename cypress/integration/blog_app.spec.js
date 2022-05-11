@@ -71,7 +71,7 @@ describe('Blog app', function() {
           cy.get('#blog-list').contains(blog.author)
         })
 
-        it.only('A blog can be liked', function () {
+        it('A blog can be liked', function () {
             cy.get('#blog-list').contains(initialBlog.title).get('#open-btn').click()
             
             cy.get('#blog-open').contains('likes 0')
@@ -79,6 +79,13 @@ describe('Blog app', function() {
             cy.get('#blog-open').contains('likes 1')
             cy.get('#blog-open').contains(initialBlog.title).get('#like-btn').click()
             cy.get('#blog-open').contains('likes 2')
+        })
+        
+        it.only('A blog can be removed by the creator', function() {
+            cy.get('#blog-list').contains(initialBlog.title).get('#open-btn').click()
+            
+            cy.get('#blog-open').get('#remove-btn').click()
+            cy.get('#blog-list').contains(initialBlog.title).should('not.exist')
         })
     })
 })
