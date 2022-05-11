@@ -12,6 +12,13 @@ describe('Blog app', function() {
         url: 'www.metropolia.fi'
     }
 
+    const initialBlog = {
+        author: 'Make Makea',
+        likes: 0,
+        title: 'Fullstack mooc kurssin mega suorittaja',
+        url: 'www.helsinki.fi'
+    }
+
 	beforeEach(function() {
 		cy.request('POST', 'http://localhost:3003/api/testing/reset')
         cy.request('POST', 'http://localhost:3003/api/users/', user)
@@ -45,9 +52,13 @@ describe('Blog app', function() {
             cy.get('#password').type(user.password)
             cy.get('#login-submit-btn').click()
             cy.contains('blogs')
+
+            cy.createBlog(initialBlog.title, initialBlog.author, initialBlog.url)
+            cy.reload()
+            cy.get('#blog-list').contains(initialBlog.title)
         })
     
-        it.only('A blog can be created', function() {
+        it('A blog can be created', function() {
           cy.get('#toggle-on-btn').click()
           cy.get('#togglable-container').should('have.css', 'display', 'block')
 
@@ -58,6 +69,16 @@ describe('Blog app', function() {
 
           cy.get('#blog-list').contains(blog.title)
           cy.get('#blog-list').contains(blog.author)
+        })
+
+        it.only('A blog can be liked', function () {
+            cy.get('#blog-list').contains(initialBlog.title).get('#open-btn').click()
+            
+            cy.get('#blog-open').contains('likes 0')
+            cy.get('#blog-open').contains(initialBlog.title).get('#like-btn').click()
+            cy.get('#blog-open').contains('likes 1')
+            cy.get('#blog-open').contains(initialBlog.title).get('#like-btn').click()
+            cy.get('#blog-open').contains('likes 2')
         })
     })
 })
